@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React</title>
+    <script>
+      // Dynamic favicon based on blog title
+      (function() {
+        const storedTitle = localStorage.getItem('siteTitle') || 'Simple Blog';
+        const initial = storedTitle.charAt(0).toUpperCase();
+        const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#E5E7EB"/><text x="16" y="22" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#000000">' + initial + '</text></svg>';
+        const blob = new Blob([svg], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
+        document.querySelector('link[rel="icon"]').href = url;
+        
+        // Listen for title changes
+        window.addEventListener('siteTitleChanged', function(e) {
+          const newTitle = e.detail.blogTitle || 'Simple Blog';
+          const newInitial = newTitle.charAt(0).toUpperCase();
+          const newSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#E5E7EB"/><text x="16" y="22" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#000000">' + newInitial + '</text></svg>';
+          const newBlob = new Blob([newSvg], { type: 'image/svg+xml' });
+          document.querySelector('link[rel="icon"]').href = URL.createObjectURL(newBlob);
+        });
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
